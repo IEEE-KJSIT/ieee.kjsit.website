@@ -6,7 +6,7 @@ import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { MapPin, Users, Clock } from "lucide-react"
 
-// Upcoming Renaissance Events Data
+// Upcoming Renaissance Events Data (content unchanged; UI improvements below)
 const upcomingEvents = [
   {
     id: 1,
@@ -150,13 +150,14 @@ const workshops = {
 export default function EventsPage() {
   const [activeTab, setActiveTab] = useState("upcoming")
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const sortedUpcoming = [...upcomingEvents].sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
 
   return (
     <main className="min-h-screen bg-gray-50">
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a237e] via-[#00629B] to-[#0d47a1]">
+      <section className="relative min-h-[70vh] md:h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a237e] via-[#00629B] to-[#0d47a1]" id="top">
         <div className="absolute inset-0">
           <div className="particles-container absolute inset-0 opacity-20">
             {[...Array(100)].map((_, i) => (
@@ -244,8 +245,18 @@ export default function EventsPage() {
         `}</style>
       </section>
 
+      {/* Sticky Subnav */}
+      <div className="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-3 md:gap-6 text-sm md:text-base">
+          <a href="#renaissance" className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition">Renaissance</a>
+          <a href="#upcoming" className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition">Upcoming</a>
+          <a href="#past" className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition">Past</a>
+          <a href="#workshops" className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition">Workshops</a>
+        </div>
+      </div>
+
       {/* Renaissance Techfest Section */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white" id="renaissance">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Renaissance</h2>
@@ -279,8 +290,8 @@ export default function EventsPage() {
 
           {/* Upcoming Events */}
           {activeTab === "upcoming" && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {upcomingEvents.map((event) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="upcoming">
+              {sortedUpcoming.map((event) => (
                 <div
                   key={event.id}
                   className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-[#00629B]/20"
@@ -321,6 +332,11 @@ export default function EventsPage() {
                       </div>
                     </div>
 
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-gray-100 text-gray-700">Priority {event.priority}</span>
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-blue-50 text-[#005080]">Renaissance</span>
+                    </div>
+
                     <Button className="w-full bg-[#00629B] hover:bg-[#005080] text-white group-hover:scale-105 transition-all duration-300">
                       Learn More
                     </Button>
@@ -332,7 +348,7 @@ export default function EventsPage() {
 
           {/* Past Events */}
           {activeTab === "past" && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="past">
               {pastEvents.map((event) => (
                 <div
                   key={event.id}
