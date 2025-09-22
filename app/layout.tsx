@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
 
@@ -14,7 +13,7 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "IEEE KJSIT Student Branch",
   description: "IEEE KJSIT Student Branch - Advancing Technology for Humanity",
-  generator: "v0.app",
+  generator: "",
 }
 
 export default function RootLayout({
@@ -29,7 +28,6 @@ export default function RootLayout({
       </head>
       <body className={`font-sans ${montserrat.variable} antialiased`}>
         <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
       </body>
     </html>
   )
