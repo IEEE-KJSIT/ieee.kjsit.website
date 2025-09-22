@@ -363,6 +363,19 @@ export default function EventsPage() {
   const { scrollY } = useScroll()
   const heroY = useTransform(scrollY, [0, 500], [0, 150])
 
+  // Deterministic pseudo-random positions for background particles to avoid
+  // hydration mismatches and mobile blink while scrolling
+  function mulberry32(seed: number) {
+    return function () {
+      let t = (seed += 0x6d2b79f5)
+      t = Math.imul(t ^ (t >>> 15), t | 1)
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    }
+  }
+  const rand = mulberry32(1337)
+  const particles = Array.from({ length: 30 }, () => ({ x: rand(), y: rand(), d: 2 + rand() * 2 }))
+
   const categories = ["all", "Programming", "AI", "Gaming", "Quiz", "Adventure", "Robotics"]
   
   const filteredUpcomingEvents = upcomingRenaissanceEvents.filter(event => {
@@ -382,26 +395,16 @@ export default function EventsPage() {
           className="absolute inset-0"
           style={{ y: heroY }}
         >
-          {/* Animated Background Elements */}
+          {/* Animated Background Elements (deterministic, no window access) */}
           <div className="absolute inset-0">
-            {[...Array(50)].map((_, i) => (
+            {particles.map((p, i) => (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 bg-white/30 rounded-full"
-                initial={{ 
-                  x: (typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0),
-                  y: (typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0),
-                  opacity: 0
-                }}
-                animate={{ 
-                  opacity: [0, 1, 0],
-                  scale: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 5
-                }}
+                className="absolute rounded-full bg-white/30"
+                style={{ left: `${p.x * 100}%`, top: `${p.y * 100}%`, width: 4, height: 4 }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: [0, 1, 0], scale: [0, 1, 0] }}
+                transition={{ duration: 3 + (i % 10) * 0.2, repeat: Infinity, delay: (i % 20) * 0.1 }}
               />
             ))}
           </div>
@@ -477,7 +480,7 @@ export default function EventsPage() {
       </section>
 
       {/* Renaissance Techfest Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-12 md:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             className="text-center mb-16"
@@ -520,8 +523,8 @@ export default function EventsPage() {
           </motion.div>
 
           {/* Event Navigation */}
-          <div className="flex justify-center mb-12">
-            <div className="bg-white p-2 rounded-2xl shadow-lg border border-gray-200">
+          <div className="flex justify-center mb-8 md:mb-12">
+            <div className="bg-white p-1.5 md:p-2 rounded-2xl shadow-lg border border-gray-200">
               <button
                 onClick={() => setActiveTab("upcoming")}
                 className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
@@ -577,12 +580,12 @@ export default function EventsPage() {
                     placeholder="Search events..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#00629B] focus:border-transparent"
+                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#00629B] focus:border-transparent w-64 sm:w-72 md:w-80"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {filteredUpcomingEvents.map((event, index) => (
                   <motion.div
                     key={event.id}
