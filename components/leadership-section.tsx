@@ -24,6 +24,23 @@ const leaders = [
   },
 ]
 
+const subcoreLeaders = [
+  {
+    name: "Jayesh Jain",
+    position: "JT. COO",
+    image: "/placeholder-user.jpg",
+    description:
+      "Dedicated to fostering innovation and excellence within our IEEE community through strategic planning and collaborative leadership.",
+  },
+  {
+    name: "Rahul Jha",
+    position: "JT. DMM",
+    image: "/placeholder-user.jpg",
+    description:
+      "Committed to driving digital marketing initiatives and enhancing our branch's outreach and engagement with the broader community.",
+  },
+]
+
 export default function LeadershipSection() {
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-blue-50/30">
@@ -104,6 +121,55 @@ export default function LeadershipSection() {
                 </CardContent>
               </div>
             ))}
+          </div>
+
+          {/* Subcore Section */}
+          <div className="mt-16">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Subcore Team</h3>
+              <div className="relative inline-block">
+                <p className="text-lg text-gray-700 max-w-2xl mx-auto text-pretty font-medium">
+                  Meet our dedicated subcore members driving innovation forward
+                </p>
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-[#0066cc] rounded-full"></div>
+              </div>
+            </div>
+
+            {/* Subcore Cards - Side by side */}
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {subcoreLeaders.map((leader, index) => (
+                <div
+                  key={index}
+                  className="hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white border-0 shadow-lg"
+                >
+                  <CardContent className="p-8">
+                    <div className="text-center">
+                      <div className="mb-6">
+                        <div className="relative inline-block">
+                          <img
+                            src={leader.image || "/placeholder.svg"}
+                            alt={leader.name}
+                            className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-[#0066cc] shadow-lg"
+                          />
+                          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#0066cc] rounded-full flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">{leader.name}</h3>
+
+                      <div className="relative inline-block mb-4">
+                        <p className="text-[#0066cc] font-bold text-xs tracking-wide uppercase">{leader.position}</p>
+                        <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"></div>
+                      </div>
+
+                      <p className="text-gray-600 text-xs leading-relaxed text-pretty">{leader.description}</p>
+                    </div>
+                  </CardContent>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

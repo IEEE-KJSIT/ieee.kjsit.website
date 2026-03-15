@@ -1,469 +1,316 @@
+"use client"
+
+import { useState } from "react"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
-import { Card, CardContent } from "@/components/ui/card"
 
-const teamData = {
-  leadership: [
-    {
-      name: "Taher Stovewala",
-      position: "Chairperson",
-      image: "/professional-male-student-leader-portrait.jpg",
-      description: "Leading IEEE KJSIT with vision, innovation, and dedication to technical excellence.",
-      linkedin: "#",
-      email: "taher@ieee.kjsit.edu",
-    },
-    {
-      name: "Roshan Rawat",
-      position: "Vice Chairperson",
-      image: "/professional-male-student-leader-portrait.jpg",
-      description: "Supporting strategic initiatives and fostering collaborative growth within the branch.",
-      linkedin: "#",
-      email: "roshan@ieee.kjsit.edu",
-    },
-  ],
-  core: [
-    {
-      name: "Krishna Jogi",
-      position: "Secretary",
-      image: "/professional-male-student.png",
-      description: "Managing communications, documentation, and administrative excellence.",
-      linkedin: "#",
-      email: "krishna@ieee.kjsit.edu",
-    },
-    {
-      name: "Navya Prabhu",
-      position: "Treasurer",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Managing financial planning, budgets, and resource allocation.",
-      linkedin: "#",
-      email: "navya@ieee.kjsit.edu",
-    },
-    {
-      name: "Shriya Koul",
-      position: "Public Relations Officer",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Building relationships and managing external communications.",
-      linkedin: "#",
-      email: "shriya@ieee.kjsit.edu",
-    },
-    {
-      name: "Harshad Jagtap",
-      position: "Chief Marketing Officer",
-      image: "/professional-male-student.png",
-      description: "Driving marketing strategies and brand development initiatives.",
-      linkedin: "#",
-      email: "harshad@ieee.kjsit.edu",
-    },
-    {
-      name: "Aditya Ranjan",
-      position: "Chief Executive Officer",
-      image: "/professional-male-student.png",
-      description: "Overseeing operations and driving strategic execution of branch initiatives.",
-      linkedin: "#",
-      email: "aditya@ieee.kjsit.edu",
-    },
-    {
-      name: "Qasim Kharodia",
-      position: "Chief Technical Officer",
-      image: "/professional-male-student.png",
-      description: "Leading technical innovation and development projects.",
-      linkedin: "#",
-      email: "qasim@ieee.kjsit.edu",
-    },
-    {
-      name: "Viren Patel",
-      position: "Chief Operating Officer",
-      image: "/professional-male-student.png",
-      description: "Managing day-to-day operations and process optimization.",
-      linkedin: "#",
-      email: "viren@ieee.kjsit.edu",
-    },
-    {
-      name: "Saksham Sapru",
-      position: "Digital Media Manager",
-      image: "/professional-male-student.png",
-      description: "Managing digital presence and multimedia content creation.",
-      linkedin: "#",
-      email: "saksham@ieee.kjsit.edu",
-    },
-  ],
-  subCore: [
-    {
-      name: "Aayush Gujarathi",
-      position: "Jt. Secretary",
-      image: "/professional-student-portrait.png",
-      description: "Supporting secretarial duties and administrative tasks.",
-      linkedin: "#",
-    },
-    {
-      name: "Anshita Vasani",
-      position: "Jt. Treasurer",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Assisting with financial management and budget tracking.",
-      linkedin: "#",
-    },
-    {
-      name: "Udhay Bhardwaj",
-      position: "Jt. Public Relations Officer",
-      image: "/professional-student-portrait.png",
-      description: "Supporting PR activities and community engagement.",
-      linkedin: "#",
-    },
-    {
-      name: "Kesa Sayyed",
-      position: "Jt. Chief Executive Officer",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Assisting with executive operations and strategic planning.",
-      linkedin: "#",
-    },
-    {
-      name: "Aliasghar Masood",
-      position: "Jt. Chief Technical Officer",
-      image: "/professional-student-portrait.png",
-      description: "Supporting technical projects and innovation initiatives.",
-      linkedin: "#",
-    },
-  ],
-  marketingAdmins: [
-    {
-      name: "Manthan Bhanushali",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Leading marketing initiatives and brand development strategies.",
-    },
-    {
-      name: "Jay Dayma",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Supporting marketing campaigns and promotional activities.",
-    },
-    {
-      name: "Naitri Shah",
-      position: "Jt. Admin",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Assisting with marketing content and outreach programs.",
-    },
-  ],
-  organisingAdmins: [
-    {
-      name: "Virendra Jain",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Coordinating events and managing organizational logistics.",
-    },
-    {
-      name: "Pragati Shinde",
-      position: "Admin",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Overseeing event planning and execution processes.",
-    },
-    {
-      name: "Piyush Kolhe",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Supporting event coordination and venue management.",
-    },
-    {
-      name: "Vinay Bendale",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Assisting with organizational tasks and event logistics.",
-    },
-  ],
-  prAdmins: [
-    {
-      name: "Sudhanshu Bhilare",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Managing public relations and external communications.",
-    },
-    {
-      name: "Ashutosh S Ramani",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Supporting PR activities and media relations.",
-    },
-  ],
-  dccAdmins: [
-    {
-      name: "Suraj Jagtap",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Managing DCC operations and coordination activities.",
-    },
-    {
-      name: "Shashank Kiran Rathod",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Overseeing DCC initiatives and project management.",
-    },
-    {
-      name: "Yuval Shah",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Supporting DCC operations and administrative tasks.",
-    },
-    {
-      name: "Dipesh Bhanudas Dalvi",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Assisting with DCC coordination and project support.",
-    },
-  ],
-  techAdmins: [
-    {
-      name: "Niharika Maurya",
-      position: "Admin",
-      image: "/professional-female-student-portrait.jpg",
-      description: "Leading technical projects and innovation initiatives.",
-    },
-    {
-      name: "Vyom Vyas",
-      position: "Admin",
-      image: "/professional-student-portrait.png",
-      description: "Managing technical operations and development projects.",
-    },
-    {
-      name: "Aditya Kesarkar",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Supporting technical development and project execution.",
-    },
-    {
-      name: "Vedant Sawant",
-      position: "Jt. Admin",
-      image: "/professional-student-portrait.png",
-      description: "Assisting with technical initiatives and system management.",
-    },
-  ],
-  members: [
-    "Aarav Patel",
-    "Aadhya Singh",
-    "Abhinav Kumar",
-    "Aditi Sharma",
-    "Akash Gupta",
-    "Anisha Reddy",
-    "Arjun Nair",
-    "Avni Joshi",
-    "Bhavya Mehta",
-    "Chirag Shah",
-    "Diya Agarwal",
-    "Harsh Verma",
-    "Ishaan Malhotra",
-    "Jiya Kapoor",
-    "Karan Thakur",
-    "Kavya Iyer",
-    "Manav Desai",
-    "Naina Chopra",
-    "Om Prakash",
-    "Pooja Yadav",
-    "Rahul Saxena",
-    "Riya Bansal",
-    "Rohan Jain",
-    "Sakshi Pandey",
-    "Tanvi Kulkarni",
-    "Uday Shetty",
-    "Varun Ahluwalia",
-    "Yash Tiwari",
-    "Zara Khan",
-    "Aman Srivastava",
-  ],
-  techMembers: [
-    "Anup Mehta",
-    "Shlok Khade",
-    "Arnav Ghag",
-    "Shrishti Tewary",
-    "Sanskruti Jadhav",
-    "Ayush Sahu",
-    "Bhakti Kote",
-    "Neha Sonawane",
-    "Alshifa Inamdar",
-    "Shivam Shukla",
-  ],
-  orgMembers: [
-    "Karan Vora",
-    "Bhavy Doshi",
-    "Atharv Bagwe",
-    "Tanish Bhagat",
-    "Poojan Mehta",
-    "Riddhi Patil",
-    "Sarwar Agahria",
-    "Lakshmi Menon",
-    "Saad Shaikh",
-    "Varad Kadam",
-    "Riya Gaud",
-    "Sonia Patil",
-    "Arushi Narkar",
-    "Ahmedali Fateh",
-    "Himanshu Makwana",
-  ],
-  dccMembers: ["Geerija Koli", "Ayushi Kosambi", "Niraj Khate", "Palak Barapatre"],
-  prMembers: ["Nireeksh Bhandary", "Meet", "Manav Shah", "Riddhi Patel", "Vinisha Patel", "Uday Gavhankar"],
-  marketingMembers: ["Prafull Ahire", "Suraj Chhajed", "Arnav Dumane"],
-}
+// ─── PHOTO GUIDE ───────────────────────────────────────────────────────────────
+// Drop all photos into: /public/team/
+// Name format: firstname-lastname.png  (lowercase, hyphenated)
+// ──────────────────────────────────────────────────────────────────────────────
 
-function LeadershipCard({ member }: { member: any }) {
+const coreTeam = [
+  { name: "Taher Stovewala",  position: "Chairperson",           image: "/team/taher-stovewala.png",  featured: true },
+  { name: "Roshan Rawat",     position: "Vice Chairperson",      image: "/team/roshan-rawat.png",     featured: true },
+  { name: "Krishna Jogi",     position: "Secretary",             image: "/team/krishna-jogi.png" },
+  { name: "Navya Prabhu",     position: "Treasurer",             image: "/team/navya-prabhu.png" },
+  { name: "Shriya Koul",      position: "PRO",                   image: "/team/shriya-koul.png" },
+  { name: "Harshad Jagtap",   position: "CMO",                   image: "/team/harshad-jagtap.png" },
+  { name: "Aditya Ranjan",    position: "CEO",                   image: "/team/aditya-ranjan.png" },
+  { name: "Qasim Kharodia",   position: "CTO",                   image: "/team/qasim-kharodia.png" },
+  { name: "Viren Patel",      position: "COO",                   image: "/team/viren-patel.png" },
+  { name: "Saksham Sapru",    position: "Digital Media Manager", image: "/team/saksham-sapru.png" },
+]
+
+const subCoreTeam = [
+  { name: "Aayush Gujarathi",  position: "Jt. Secretary",  image: "/team/aayush-gujarathi.png" },
+  { name: "Anshita Vasani",    position: "Jt. Treasurer",  image: "/team/anshita-vasani.png" },
+  { name: "Udhay Bhardwaj",    position: "Jt. PRO",        image: "/team/udhay-bhardwaj.png" },
+  { name: "Kesa Sayyed",       position: "Jt. CTO",        image: "/team/kesa-sayyed.png" },
+  { name: "Aliasghar Masood",  position: "Jt. CEO",        image: "/team/aliasghar-masood.png" },
+  { name: "Rahul Jha",         position: "Jt. DMM",         image: "/team/rahul-jha.png" },
+]
+
+const adminDepts = [
+  {
+    key: "marketing", label: "Marketing",
+    members: [
+      { name: "Manthan Bhanushali", role: "Admin" },
+      { name: "Jay Dayma",          role: "Jt. Admin" },
+      { name: "Naitri Shah",        role: "Jt. Admin" },
+    ],
+  },
+  {
+    key: "organising", label: "Organising",
+    members: [
+      { name: "Virendra Jain",   role: "Admin" },
+      { name: "Pragati Shinde",  role: "Admin" },
+      { name: "Piyush Kolhe",    role: "Jt. Admin" },
+      { name: "Vinay Bendale",   role: "Jt. Admin" },
+    ],
+  },
+  {
+    key: "pr", label: "Public Relations",
+    members: [
+      { name: "Sudhanshu Bhilare",  role: "Admin" },
+      { name: "Ashutosh S Ramani",  role: "Jt. Admin" },
+    ],
+  },
+  {
+    key: "dcc", label: "DCC",
+    members: [
+      { name: "Suraj Jagtap",          role: "Admin" },
+      { name: "Shashank Kiran Rathod", role: "Admin" },
+      { name: "Yuval Shah",            role: "Jt. Admin" },
+      { name: "Dipesh Bhanudas Dalvi", role: "Jt. Admin" },
+    ],
+  },
+  {
+    key: "tech", label: "Technical",
+    members: [
+      { name: "Niharika Maurya",  role: "Admin" },
+      { name: "Vyom Vyas",        role: "Admin" },
+      { name: "Aditya Kesarkar",  role: "Jt. Admin" },
+      { name: "Vedant Sawant",    role: "Jt. Admin" },
+    ],
+  },
+]
+
+const memberDepts = [
+  {
+    label: "Technical",
+    members: ["Anup Mehta","Shlok Khade","Arnav Ghag","Shrishti Tewary","Sanskruti Jadhav","Ayush Sahu","Bhakti Kote","Neha Sonawane","Alshifa Inamdar","Shivam Shukla"],
+  },
+  {
+    label: "Organising",
+    members: ["Karan Vora","Bhavy Doshi","Atharv Bagwe","Tanish Bhagat","Poojan Mehta","Riddhi Patil","Sarwar Agahria","Lakshmi Menon","Saad Shaikh","Varad Kadam","Riya Gaud","Sonia Patil","Arushi Narkar","Ahmedali Fateh","Himanshu Makwana"],
+  },
+  {
+    label: "DCC",
+    members: ["Geerija Koli","Ayushi Kosambi","Niraj Khate","Palak Barapatre"],
+  },
+  {
+    label: "Public Relations",
+    members: ["Nireeksh Bhandary","Meet","Manav Shah","Riddhi Patel","Vinisha Patel","Uday Gavhankar"],
+  },
+  {
+    label: "Marketing",
+    members: ["Prafull Ahire","Suraj Chhajed","Arnav Dumane"],
+  },
+]
+
+// ─── SECTION EYEBROW ─────────────────────────────────────────────────────────
+function SectionEyebrow({ text }: { text: string }) {
   return (
-    <div className="group relative">
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700 group-hover:duration-300"></div>
-      <Card className="relative bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl border border-gray-100">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00629B] to-[#004e92]"></div>
-        <CardContent className="p-8 text-center">
-          <div className="relative mb-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur-sm opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
-            <img
-              src={member.image || "/placeholder.svg"}
-              alt={member.name}
-              className="relative w-24 h-24 rounded-full object-cover mx-auto border-4 border-[#00629B] shadow-lg group-hover:border-blue-500 transition-colors duration-300"
-            />
-          </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#00629B] transition-colors duration-300">
-            {member.name}
-          </h3>
-          <p className="text-[#00629B] font-semibold text-lg mb-4">{member.position}</p>
-          <p className="text-gray-600 text-sm leading-relaxed mb-6">{member.description}</p>
-          <div className="flex justify-center space-x-4">
-            <a
-              href={member.linkedin}
-              className="text-[#00629B] hover:text-blue-500 transition-colors duration-200 transform hover:scale-110"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" />
-              </svg>
-            </a>
-            <a
-              href={`mailto:${member.email}`}
-              className="text-[#00629B] hover:text-blue-500 transition-colors duration-200 transform hover:scale-110"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
-            </a>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="flex items-center justify-center gap-3 mb-4">
+      <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#00629B]" />
+      <span className="text-[#00629B] text-[10px] font-black uppercase tracking-[0.35em]">{text}</span>
+      <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#00629B]" />
     </div>
   )
 }
 
+// ─── HOVER BEAM ───────────────────────────────────────────────────────────────
+function HoverBeam({
+  hovered,
+  colorFrom = "#FFD700",
+  colorTo   = "#00629B",
+  duration  = 5,
+  borderWidth = 2,
+}: {
+  hovered: boolean
+  colorFrom?: string
+  colorTo?: string
+  duration?: number
+  borderWidth?: number
+}) {
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html:
+        `@keyframes beam-rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`
+      }} />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "inherit",
+          padding: borderWidth,
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.5s ease",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+          pointerEvents: "none",
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: "-120%",
+            background: `conic-gradient(
+              from 0deg,
+              transparent    200deg,
+              ${colorFrom}   245deg,
+              ${colorTo}     285deg,
+              transparent    330deg
+            )`,
+            animation: `beam-rotate ${duration}s linear infinite`,
+          }}
+        />
+      </div>
+    </>
+  )
+}
+
+// ─── FEATURED CORE CARD (Chairperson / Vice Chair) ────────────────────────────
+function FeaturedCard({ member }: { member: any }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <div
+      className="group relative bg-[#080e1c] rounded-2xl overflow-hidden p-8 flex flex-col items-center text-center h-full border transition-[border-color,box-shadow] duration-500"
+      style={{
+        borderColor: hovered ? "rgba(255,215,0,0.22)" : "rgba(255,255,255,0.05)",
+        boxShadow: hovered
+          ? "0 0 48px rgba(255,215,0,0.07), 0 0 90px rgba(0,98,155,0.07)"
+          : "none",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Photo */}
+      <div className="w-44 h-44 mb-6 drop-shadow-2xl flex-shrink-0">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="w-full h-full object-contain"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+        />
+      </div>
+
+      {/* Thin gold divider */}
+      <div className="w-8 h-px bg-gradient-to-r from-transparent via-[#FFD700]/60 to-transparent mb-4" />
+
+      <p className="text-[#FFD700] text-[10px] font-black uppercase tracking-[0.35em] mb-2">
+        {member.position}
+      </p>
+      <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">
+        {member.name}
+      </h3>
+
+      <HoverBeam hovered={hovered} colorFrom="#FFD700" colorTo="#00629B" duration={5} borderWidth={2.5} />
+    </div>
+  )
+}
+
+// ─── STANDARD CORE CARD ───────────────────────────────────────────────────────
 function CoreCard({ member }: { member: any }) {
+  const [hovered, setHovered] = useState(false)
+
   return (
-    <div className="group relative">
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00629B] to-[#004e92] rounded-xl blur opacity-15 group-hover:opacity-30 transition duration-500"></div>
-      <Card className="relative bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 group-hover:scale-102 group-hover:shadow-xl border border-gray-50">
-        <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#00629B] to-[#004e92]"></div>
-        <CardContent className="p-6 text-center">
-          <div className="relative mb-4">
-            <img
-              src={member.image || "/placeholder.svg"}
-              alt={member.name}
-              className="w-20 h-20 rounded-full object-cover mx-auto border-3 border-gray-200 shadow-md group-hover:border-[#00629B] transition-colors duration-300 group-hover:shadow-lg"
-            />
-          </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-[#00629B] transition-colors duration-300">
-            {member.name}
-          </h3>
-          <p className="text-[#00629B] font-semibold mb-3">{member.position}</p>
-          <p className="text-gray-600 text-sm leading-relaxed mb-4">{member.description}</p>
-          <div className="flex justify-center space-x-3">
-            <a
-              href={member.linkedin}
-              className="text-[#00629B] hover:text-blue-500 transition-colors duration-200 transform hover:scale-110"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" />
-              </svg>
-            </a>
-            <a
-              href={`mailto:${member.email}`}
-              className="text-[#00629B] hover:text-blue-500 transition-colors duration-200 transform hover:scale-110"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
-            </a>
-          </div>
-        </CardContent>
-      </Card>
+    <div
+      className="group relative bg-[#0d1424] rounded-2xl overflow-hidden p-6 flex flex-col items-center text-center h-full border transition-[border-color,box-shadow] duration-500"
+      style={{
+        borderColor: hovered ? "rgba(0,98,155,0.35)" : "rgba(255,255,255,0.05)",
+        boxShadow: hovered ? "0 0 32px rgba(0,98,155,0.09)" : "none",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Photo — bigger than before */}
+      <div className="w-36 h-36 mb-5 drop-shadow-lg flex-shrink-0">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="w-full h-full object-contain"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+        />
+      </div>
+
+      {/* Thin blue divider */}
+      <div className="w-6 h-px bg-gradient-to-r from-transparent via-[#00629B]/50 to-transparent mb-3" />
+
+      <p className="text-[#00629B] text-[9px] font-black uppercase tracking-[0.3em] mb-1.5 group-hover:text-[#5bb8f5] transition-colors duration-300">
+        {member.position}
+      </p>
+      <h3 className="text-base md:text-lg font-black text-white group-hover:text-[#d0e8ff] transition-colors duration-300 leading-tight">
+        {member.name}
+      </h3>
+
+      <HoverBeam hovered={hovered} colorFrom="#00629B" colorTo="#FFD700" duration={4} borderWidth={1.5} />
     </div>
   )
 }
 
-function SubCoreCard({ member }: { member: any }) {
+// ─── POLAROID SUB CORE CARD ───────────────────────────────────────────────────
+const TILTS = [-2.5, 1.8, -1.2, 2.2, -1.8]
+
+function PolaroidCard({ member, index }: { member: any; index: number }) {
+  const tilt = TILTS[index % TILTS.length]
   return (
-    <Card className="group bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-lg border-l-4 border-[#00629B] hover:border-l-blue-500">
-      <CardContent className="p-5 text-center">
-        <div className="relative mb-4">
+    <div
+      className="group relative cursor-pointer"
+      style={{ transform: `rotate(${tilt}deg)`, transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1)" }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "rotate(0deg) scale(1.06)" }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = `rotate(${tilt}deg) scale(1)` }}
+    >
+      <div className="absolute inset-0 translate-x-2 translate-y-3 bg-black/50 -z-10 group-hover:translate-y-5 group-hover:blur-sm transition-all duration-300" />
+      <div className="bg-white p-2.5 pb-10 shadow-2xl" style={{ borderRadius: "2px" }}>
+        <div className="bg-[#0d1120] aspect-square flex items-center justify-center overflow-hidden w-36 md:w-44">
           <img
-            src={member.image || "/placeholder.svg"}
+            src={member.image}
             alt={member.name}
-            className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-gray-200 group-hover:border-[#00629B] transition-colors duration-300"
+            className="w-[90%] h-[90%] object-contain"
+            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
           />
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-[#00629B] transition-colors duration-300">
-          {member.name}
-        </h3>
-        <p className="text-[#00629B] font-semibold text-sm mb-3">{member.position}</p>
-        <p className="text-gray-600 text-xs leading-relaxed mb-3">{member.description}</p>
-        <a
-          href={member.linkedin}
-          className="inline-flex items-center text-[#00629B] hover:text-blue-500 transition-colors text-xs transform hover:scale-105"
-        >
-          <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" />
-          </svg>
-          Connect
-        </a>
-      </CardContent>
-    </Card>
-  )
-}
-
-function StandardCard({ member }: { member: any }) {
-  return (
-    <Card className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-      <CardContent className="p-4 text-center">
-        <img
-          src={member.image || "/placeholder.svg"}
-          alt={member.name}
-          className="w-14 h-14 rounded-full object-cover mx-auto border-2 border-gray-200 mb-3"
-        />
-        <h3 className="text-base font-semibold text-gray-900 mb-1">{member.name}</h3>
-        <p className="text-[#00629B] font-medium text-sm mb-2">{member.position}</p>
-        <p className="text-gray-600 text-xs leading-relaxed">{member.description}</p>
-      </CardContent>
-    </Card>
-  )
-}
-
-function TeamMembersGrid({ members }: { members: string[] }) {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      {members.map((name, index) => (
-        <div
-          key={index}
-          className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 text-center hover:shadow-md transition-shadow duration-200"
-        >
-          <p className="text-sm font-medium text-gray-900">{name}</p>
+        <div className="pt-3 text-center px-1">
+          <p className="font-black text-gray-900 text-sm leading-snug tracking-tight">{member.name}</p>
+          <p className="text-[#00629B] text-[11px] font-bold mt-0.5">{member.position}</p>
         </div>
-      ))}
+      </div>
     </div>
   )
 }
 
-function DepartmentalTeamSection({ title, members }: { title: string; members: string[] }) {
+// ─── ADMINS SECTION ──────────────────────────────────────────────────────────
+function AdminsSection() {
+  const [active, setActive] = useState("marketing")
+  const dept = adminDepts.find((d) => d.key === active)!
+
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-bold text-[#00629B] mb-2">{title}</h3>
-        <div className="w-12 h-0.5 bg-[#BA0C2F] mx-auto rounded-full"></div>
+    <div>
+      {/* Clean text tabs — no emojis, no color fills */}
+      <div className="flex flex-wrap justify-center gap-1 mb-12">
+        {adminDepts.map((d) => (
+          <button
+            key={d.key}
+            onClick={() => setActive(d.key)}
+            className="relative px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300"
+            style={{
+              color: active === d.key ? "#fff" : "rgba(255,255,255,0.3)",
+            }}
+          >
+            {d.label}
+            {/* Underline indicator */}
+            <span
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px bg-[#00629B] transition-all duration-300"
+              style={{ width: active === d.key ? "100%" : "0%" }}
+            />
+          </button>
+        ))}
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        {members.map((name, index) => (
-          <div key={index} className="text-center">
-            <p className="text-sm font-medium text-gray-700">{name}</p>
+
+      {/* Members — clean rows */}
+      <div className="max-w-xl mx-auto">
+        {dept.members.map((m, i) => (
+          <div
+            key={i}
+            className="flex items-baseline justify-between py-4 border-b border-white/6 last:border-0"
+          >
+            <span className="text-white font-semibold text-sm tracking-wide">{m.name}</span>
+            <span className="text-white/30 text-[11px] font-medium ml-4 flex-shrink-0">{m.role}</span>
           </div>
         ))}
       </div>
@@ -471,198 +318,199 @@ function DepartmentalTeamSection({ title, members }: { title: string; members: s
   )
 }
 
-export default function TeamsPage() {
+// ─── MEMBERS SECTION ─────────────────────────────────────────────────────────
+function MembersSection() {
   return (
-    <main className="min-h-screen">
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#000428] to-[#004e92]">
-        {/* Particles Background */}
-        <div id="particles-js-teams" className="absolute inset-0 z-10"></div>
-
-        {/* Hero Content */}
-        <div className="relative z-20 text-center text-white max-w-4xl mx-auto px-4">
-          {/* IEEE Badge */}
-          <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-[#FFD700] font-semibold text-sm md:text-base mb-6 border border-white/20 letter-spacing-wide animate-fade-down">
-            IEEE KJSIT 2025-26
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {memberDepts.map((dept, i) => (
+        <div key={i}>
+          {/* Department label */}
+          <div className="flex items-center gap-4 mb-5">
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white/40">
+              {dept.label}
+            </h3>
+            <span className="flex-1 h-px bg-white/8" />
+            <span className="text-[10px] text-white/20 font-semibold">{dept.members.length}</span>
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 animate-fade-up">
-            <span className="text-gradient bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient-shift">
-              Visionary
+          {/* Names — clean two-column list */}
+          <div className="grid grid-cols-2 gap-x-6">
+            {dept.members.map((name, ni) => (
+              <p
+                key={ni}
+                className="text-white/65 text-sm font-medium py-2 border-b border-white/5 last:border-0 leading-snug"
+              >
+                {name}
+              </p>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
+export default function TeamsPage() {
+  const featured = coreTeam.filter((m) => m.featured)
+  const rest     = coreTeam.filter((m) => !m.featured)
+
+  return (
+    <main className="min-h-screen bg-[#060b18]">
+      <Navigation />
+
+      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-[#00629B]/15 rounded-full blur-[130px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-[#FFD700]/8 rounded-full blur-[110px] animate-pulse" style={{ animationDelay: "1.2s" }} />
+          <div className="absolute top-3/4 left-1/4 w-72 h-72 bg-[#004e92]/10 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: "2.5s" }} />
+        </div>
+
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.8) 1px,transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
+
+        <div id="particles-js-teams" className="absolute inset-0 z-10" />
+
+        <div className="relative z-20 text-center text-white max-w-5xl mx-auto px-4">
+          <div className="inline-flex items-center gap-2.5 bg-white/5 backdrop-blur-sm px-5 py-2 rounded-full text-[#FFD700] font-black text-[10px] tracking-[0.3em] mb-10 border border-[#FFD700]/15">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFD700] animate-pulse" />
+            IEEE KJSIT · 2025–26
+          </div>
+
+          <h1 className="font-black leading-none mb-6">
+            <span className="block text-5xl md:text-7xl lg:text-[96px] text-white">MEET THE</span>
+            <span
+              className="block text-6xl md:text-8xl lg:text-[120px]"
+              style={{ background: "linear-gradient(90deg,#FFD700,#FFA500,#FFD700)", backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
+            >
+              TEAM
             </span>
-            <br />
-            Leaders of Tomorrow
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8 animate-fade-up animation-delay-200 text-pretty">
-            Meet the dedicated individuals working together to make IEEE KJSIT extraordinary
+          <p className="text-base md:text-lg text-white/40 max-w-xl mx-auto mb-14 px-4">
+            The people behind every event, every initiative, every spark of innovation at IEEE KJSIT.
           </p>
 
-          {/* Scroll Indicator */}
-          <div className="animate-fade-up animation-delay-400">
-            <p className="text-sm text-blue-200 mb-2 tracking-wider">SCROLL TO EXPLORE</p>
-            <div className="animate-bounce">
-              <svg className="w-6 h-6 mx-auto text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-white/25 text-[10px] tracking-[0.4em] uppercase">Scroll to meet them</span>
+            <span className="w-px h-14 bg-gradient-to-b from-white/25 to-transparent animate-pulse" />
           </div>
         </div>
       </section>
 
-      {/* Teams Content */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          {/* Leadership Section */}
-          <div className="mb-20">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Leadership</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-[#00629B] to-[#004e92] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {teamData.leadership.map((member, index) => (
-                <LeadershipCard key={index} member={member} />
-              ))}
-            </div>
+      {/* ── CORE TEAM ────────────────────────────────────────────────────────── */}
+      <section className="relative py-20 md:py-28 px-4">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060b18] via-[#07101f] to-[#060b18]" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#00629B]/6 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="relative max-w-6xl mx-auto">
+          <SectionEyebrow text="Leadership & Core" />
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white text-center mb-3 tracking-tight">
+            CORE TEAM
+          </h2>
+          <p className="text-white/35 text-center mb-12 md:mb-16 max-w-md mx-auto text-sm">
+            Driving the vision. Running the show.
+          </p>
+
+          {/* Featured: Chairperson + Vice */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto mb-8">
+            {featured.map((m, i) => <FeaturedCard key={i} member={m} />)}
           </div>
 
-          {/* Core Team Section */}
-          <div className="mb-20">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Core Team</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-[#00629B] to-[#004e92] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {teamData.core.map((member, index) => (
-                <CoreCard key={index} member={member} />
-              ))}
-            </div>
+          {/* Rest of core — 3 cols on md, bigger cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-5">
+            {rest.map((m, i) => <CoreCard key={i} member={m} />)}
           </div>
+        </div>
+      </section>
 
-          {/* Sub-Core Section */}
-          <div className="mb-20">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Sub-Core</h2>
-              <div className="w-20 h-0.5 bg-gradient-to-r from-[#00629B] to-[#004e92] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-              {teamData.subCore.map((member, index) => (
-                <SubCoreCard key={index} member={member} />
-              ))}
-            </div>
+      {/* ── DIAGONAL DIVIDER ─────────────────────────────────────────────────── */}
+      <div className="h-16 md:h-20 bg-[#060b18] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#111827]" style={{ clipPath: "polygon(0 100%, 100% 0, 100% 100%)" }} />
+      </div>
+
+      {/* ── SUB CORE ─────────────────────────────────────────────────────────── */}
+      <section className="relative py-20 md:py-28 px-4 bg-[#111827] overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#00629B]/6 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto">
+          <SectionEyebrow text="Supporting Leadership" />
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white text-center mb-3 tracking-tight">
+            SUB CORE
+          </h2>
+          <p className="text-white/35 text-center mb-16 md:mb-20 max-w-md mx-auto text-sm">
+            Joint officers making things happen behind the scenes.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+            {subCoreTeam.map((m, i) => <PolaroidCard key={i} member={m} index={i} />)}
           </div>
+        </div>
+      </section>
 
-          {/* Marketing Admins Section */}
-          <div className="mb-16">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Marketing Admins</h2>
-              <div className="w-16 h-0.5 bg-[#00629B] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {teamData.marketingAdmins.map((member, index) => (
-                <StandardCard key={index} member={member} />
-              ))}
-            </div>
-          </div>
+      {/* ── DIAGONAL DIVIDER ─────────────────────────────────────────────────── */}
+      <div className="h-16 md:h-20 bg-[#111827] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#060b18]" style={{ clipPath: "polygon(0 0, 100% 100%, 0 100%)" }} />
+      </div>
 
-          {/* Organising Admins Section */}
-          <div className="mb-16">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Organising Admins</h2>
-              <div className="w-16 h-0.5 bg-[#00629B] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {teamData.organisingAdmins.map((member, index) => (
-                <StandardCard key={index} member={member} />
-              ))}
-            </div>
-          </div>
+      {/* ── ADMINS ───────────────────────────────────────────────────────────── */}
+      <section className="relative py-20 md:py-28 px-4 bg-[#060b18]">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#FFD700]/4 rounded-full blur-[120px] pointer-events-none" />
 
-          {/* PR Admins Section */}
-          <div className="mb-16">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">PR Admins</h2>
-              <div className="w-16 h-0.5 bg-[#00629B] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-              {teamData.prAdmins.map((member, index) => (
-                <StandardCard key={index} member={member} />
-              ))}
-            </div>
-          </div>
+        <div className="relative max-w-3xl mx-auto">
+          <SectionEyebrow text="Department Heads" />
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white text-center mb-3 tracking-tight">
+            ADMINS
+          </h2>
+          <p className="text-white/35 text-center mb-12 md:mb-16 max-w-md mx-auto text-sm">
+            Heading each department with dedication and expertise.
+          </p>
+          <AdminsSection />
+        </div>
+      </section>
 
-          {/* DCC Admins Section */}
-          <div className="mb-16">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">DCC Admins</h2>
-              <div className="w-16 h-0.5 bg-[#00629B] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {teamData.dccAdmins.map((member, index) => (
-                <StandardCard key={index} member={member} />
-              ))}
-            </div>
-          </div>
+      {/* ── TEAM MEMBERS ─────────────────────────────────────────────────────── */}
+      <section className="relative py-20 md:py-28 px-4 bg-[#080e1c]">
+        <div className="absolute right-0 bottom-0 w-[600px] h-[400px] bg-[#00629B]/5 rounded-full blur-[120px] pointer-events-none" />
 
-          {/* Tech Admins Section */}
-          <div className="mb-16">
-            <div className="text-center mb-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Tech Admins</h2>
-              <div className="w-16 h-0.5 bg-[#00629B] mx-auto rounded-full"></div>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {teamData.techAdmins.map((member, index) => (
-                <StandardCard key={index} member={member} />
-              ))}
-            </div>
-          </div>
-
-          {/* Our Team Members Section */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-[#00629B] mb-4">Our Team Members</h2>
-              <div className="w-20 h-1 bg-[#BA0C2F] mx-auto rounded-full"></div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              <DepartmentalTeamSection title="Technical Team" members={teamData.techMembers} />
-              <DepartmentalTeamSection title="DCC Team" members={teamData.dccMembers} />
-              <DepartmentalTeamSection title="ORG Team" members={teamData.orgMembers} />
-              <DepartmentalTeamSection title="Marketing Team" members={teamData.marketingMembers} />
-            </div>
-
-            <div className="mt-8 max-w-md mx-auto">
-              <DepartmentalTeamSection title="PR Team" members={teamData.prMembers} />
-            </div>
-          </div>
+        <div className="relative max-w-5xl mx-auto">
+          <SectionEyebrow text="The Full Squad" />
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white text-center mb-3 tracking-tight">
+            MEMBERS
+          </h2>
+          <p className="text-white/35 text-center mb-12 md:mb-16 max-w-md mx-auto text-sm">
+            Every name behind the events and experiences you love.
+          </p>
+          <MembersSection />
         </div>
       </section>
 
       <Footer />
 
-      {/* Particles.js Initialization Script */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
             if (typeof particlesJS !== 'undefined') {
               particlesJS("particles-js-teams", {
                 "particles": {
-                  "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                  "number": { "value": 55, "density": { "enable": true, "value_area": 900 } },
                   "color": { "value": "#ffffff" },
                   "shape": { "type": "circle" },
-                  "opacity": { "value": 0.5, "random": false },
-                  "size": { "value": 3, "random": true },
-                  "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
-                  "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                  "opacity": { "value": 0.25, "random": true },
+                  "size": { "value": 2, "random": true },
+                  "line_linked": { "enable": true, "distance": 130, "color": "#00629B", "opacity": 0.15, "width": 1 },
+                  "move": { "enable": true, "speed": 1.2, "direction": "none", "out_mode": "out" }
                 },
                 "interactivity": {
                   "detect_on": "canvas",
                   "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-                  "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+                  "modes": { "grab": { "distance": 150, "line_linked": { "opacity": 0.6 } }, "push": { "particles_nb": 3 } }
                 },
                 "retina_detect": true
               });
