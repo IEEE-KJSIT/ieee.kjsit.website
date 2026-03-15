@@ -16,7 +16,7 @@ const coreTeam = [
   { name: "Navya Prabhu",     position: "Treasurer",             image: "/team/navya-prabhu.png" },
   { name: "Shriya Koul",      position: "PRO",                   image: "/team/shriya-koul.png" },
   { name: "Harshad Jagtap",   position: "CMO",                   image: "/team/harshad-jagtap.png" },
-  { name: "Aditya Ranjan",    position: "CEO",                   image: "/team/aditya-ranjan.png" },
+  { name: "Aditya Singh",     position: "CEO",                   image: "/team/aditya-singh.png" },
   { name: "Qasim Kharodia",   position: "CTO",                   image: "/team/qasim-kharodia.png" },
   { name: "Viren Patel",      position: "COO",                   image: "/team/viren-patel.png" },
   { name: "Saksham Sapru",    position: "Digital Media Manager", image: "/team/saksham-sapru.png" },
@@ -29,6 +29,7 @@ const subCoreTeam = [
   { name: "Kesa Sayyed",       position: "Jt. CTO",        image: "/team/kesa-sayyed.png" },
   { name: "Aliasghar Masood",  position: "Jt. CEO",        image: "/team/aliasghar-masood.png" },
   { name: "Rahul Jha",         position: "Jt. DMM",         image: "/team/rahul-jha.png" },
+  { name: "Jayesh Jain",       position: "Jt. COO",        image: "/team/jayesh-jain.png" },
 ]
 
 const adminDepts = [
